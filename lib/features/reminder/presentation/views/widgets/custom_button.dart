@@ -1,0 +1,22 @@
+import 'package:flutter/material.dart';
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({super.key, required this.text, required this.onPressed, required this.loading});
+  final String text;
+  final void Function()? onPressed;
+  final bool loading;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        minimumSize: const Size(double.infinity, 50),
+        backgroundColor: Colors.deepPurple,
+      ),
+      onPressed: onPressed,
+      child: loading ? const CircularProgressIndicator(color: Colors.white) : Text(text),
+    );
+  }
+}
