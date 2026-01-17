@@ -329,21 +329,6 @@ Contributions are welcome! Please follow these steps:
 - Write meaningful commit messages
 - Add comments for complex logic
 
-## 📄 License
-
-*License information not specified in the project.*
-
-**Assumption**: This project is likely licensed under the MIT License or is proprietary. Please add a `LICENSE` file to specify the license terms.
-
-Example MIT License:
-```
-MIT License
-
-Copyright (c) 2024 Reminder App Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files...
-```
 
 ## 👨‍💻 Author / Credits
 
