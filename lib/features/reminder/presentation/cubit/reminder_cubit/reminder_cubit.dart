@@ -24,6 +24,7 @@ class ReminderCubit extends Cubit<ReminderState> {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? dateTime,
   }) async {
     emit(ReminderLoading());
     try {
@@ -32,6 +33,7 @@ class ReminderCubit extends Cubit<ReminderState> {
         title: title,
         description: description,
         isCompleted: isCompleted,
+        dateTime: dateTime,
       );
       emit(ReminderLoaded(await reminderRepo.getAllReminders()));
     } catch (e) {

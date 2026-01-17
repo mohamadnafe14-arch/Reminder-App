@@ -8,6 +8,7 @@ abstract class ReminderRepo {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? dateTime,
   });
   Future<void> deleteReminder(ReminderModel reminder);
   Future<void> toggleReminder(ReminderModel reminder);

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:reminder_app/core/utils/app_routes.dart';
 import 'package:reminder_app/features/reminder/data/models/reminder_model.dart';
 import 'package:reminder_app/features/reminder/presentation/cubit/reminder_cubit/reminder_cubit.dart';
 import 'package:reminder_app/features/reminder/presentation/views/widgets/custom_button.dart';
 import 'package:reminder_app/features/reminder/presentation/views/widgets/custom_text_form_field.dart';
 
-class AddReminderBody extends StatefulWidget {
-  const AddReminderBody({super.key});
-
+class UpdateViewBody extends StatefulWidget {
+  const UpdateViewBody({super.key, required this.reminderModel});
+  final ReminderModel reminderModel;
   @override
-  State<AddReminderBody> createState() => _AddReminderBodyState();
+  State<UpdateViewBody> createState() => _UpdateViewBodyState();
 }
 
-class _AddReminderBodyState extends State<AddReminderBody> {
+class _UpdateViewBodyState extends State<UpdateViewBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? title, description;
   DateTime? dateTime;
@@ -32,7 +31,7 @@ class _AddReminderBodyState extends State<AddReminderBody> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Add Reminder",
+                  "Update Reminder",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -43,13 +42,7 @@ class _AddReminderBodyState extends State<AddReminderBody> {
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
-                hintText: 'Enter reminder title',
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Title can't be empty";
-                  }
-                  return null;
-                },
+                hintText: widget.reminderModel.title,
                 onSaved: (value) => title = value,
                 onChanged: (value) => title = value,
                 prefixIcon: Icons.title,
@@ -61,13 +54,7 @@ class _AddReminderBodyState extends State<AddReminderBody> {
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
-                hintText: 'Enter reminder description',
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Description can't be empty";
-                  }
-                  return null;
-                },
+                hintText: widget.reminderModel.description,
                 onSaved: (value) => description = value,
                 onChanged: (value) => description = value,
                 prefixIcon: Icons.description,
@@ -104,29 +91,21 @@ class _AddReminderBodyState extends State<AddReminderBody> {
               BlocBuilder<ReminderCubit, ReminderState>(
                 builder: (context, state) {
                   return CustomButton(
-                    text: "Save",
+                    text: "Update",
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        if (dateTime != null) {
-                          final reminder = ReminderModel(
-                            title: title!,
-                            description: description!,
-                            dateTime: dateTime!,
-                          );
-                          BlocProvider.of<ReminderCubit>(
-                            context,
-                          ).addReminder(reminder);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Reminder added")),
-                          );
-                          GoRouter.of(context).push(AppRoutes.reminder);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Please choose date")),
-                          );
-                        }
-                      }
+                      BlocProvider.of<ReminderCubit>(context).updateReminder(
+                        widget.reminderModel,
+                        title: title,
+                        description: description,
+                        isCompleted: widget.reminderModel.isCompleted,
+                        dateTime: dateTime,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Reminder updated successfully!"),
+                        ),
+                      );
+                      GoRouter.of(context).pop();
                     },
                     loading: state is ReminderLoading,
                   );

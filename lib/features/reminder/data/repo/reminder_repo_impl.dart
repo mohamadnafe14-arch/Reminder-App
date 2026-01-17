@@ -27,10 +27,12 @@ class ReminderRepoImpl implements ReminderRepo {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? dateTime,
   }) async {
     reminder.title = title ?? reminder.title;
     reminder.description = description ?? reminder.description;
     reminder.isCompleted = isCompleted ?? reminder.isCompleted;
+    reminder.dateTime = dateTime ?? reminder.dateTime;
     await reminder.save();
   }
 

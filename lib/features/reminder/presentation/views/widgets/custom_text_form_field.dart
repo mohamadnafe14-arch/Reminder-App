@@ -4,7 +4,6 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.hintText,
-    required this.validator,
     required this.onSaved,
     required this.onChanged,
     required this.prefixIcon,
@@ -12,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onTap,
     this.controller,
     this.maxLines = 1,
+    this.validator,
   });
   final String hintText;
   final String? Function(String?)? validator;
